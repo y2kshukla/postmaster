@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from textual.app import ComposeResult
-from textual.containers import Horizontal, Vertical
+from textual.containers import Vertical
 from textual.widgets import Button, ContentSwitcher, DataTable, Label, RichLog, Static, TabPane, TabbedContent
 
 
@@ -24,11 +24,8 @@ class RightPanel(Vertical):
                         id="response-empty",
                     )
                     yield Vertical(
-                        Horizontal(
-                            Button("Copy", id="copy-response-btn", classes="copy-btn"),
-                            classes="copy-bar",
-                        ),
                         RichLog(id="response-body", highlight=True, markup=True),
+                        Button("Copy", id="copy-response-btn", classes="copy-btn"),
                         id="response-viewer",
                     )
             with TabPane("Headers", id="headers-pane"):
@@ -37,20 +34,14 @@ class RightPanel(Vertical):
                 yield DataTable(id="response-cookies-table")
             with TabPane("Actual Request", id="actual-pane"):
                 yield Vertical(
-                    Horizontal(
-                        Button("Copy", id="copy-request-btn", classes="copy-btn"),
-                        classes="copy-bar",
-                    ),
                     RichLog(id="actual-request-log", markup=True),
+                    Button("Copy", id="copy-request-btn", classes="copy-btn"),
                     id="actual-request-viewer",
                 )
             with TabPane("Console", id="console-pane"):
                 yield Vertical(
-                    Horizontal(
-                        Button("Copy", id="copy-console-btn", classes="copy-btn"),
-                        classes="copy-bar",
-                    ),
                     RichLog(id="console-log", markup=True),
+                    Button("Copy", id="copy-console-btn", classes="copy-btn"),
                     id="console-viewer",
                 )
 
