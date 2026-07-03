@@ -50,6 +50,8 @@ Screen > Horizontal {
 /* ── Request Bar ──────────────────────────── */
 #request-bar {
     height: 3;
+    min-height: 3;
+    max-height: 3;
     background: #252526;
     overflow-x: auto;
 }
