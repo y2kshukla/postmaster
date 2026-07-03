@@ -5,7 +5,6 @@ from textual.containers import Horizontal
 from textual.screen import Screen
 from textual.widgets import Select
 
-from postmaster.widgets.hsplitter import HSplitter
 from postmaster.widgets.left_panel import LeftPanel
 from postmaster.widgets.request_bar import RequestBar
 from postmaster.widgets.right_panel import RightPanel
@@ -20,6 +19,7 @@ class MainScreen(Screen):
         ("ctrl+enter", "send_request", "Send"),
         ("ctrl+s", "save_request", "Save"),
         ("ctrl+b", "toggle_sidebar", "Sidebar"),
+        ("ctrl+n", "toggle_section_names", "Names"),
     ]
 
     def __init__(self) -> None:
@@ -30,7 +30,6 @@ class MainScreen(Screen):
     def compose(self) -> ComposeResult:
         yield TopBar()
         yield RequestBar()
-        yield HSplitter()
         with Horizontal():
             yield Sidebar()
             yield LeftPanel()
@@ -99,3 +98,6 @@ class MainScreen(Screen):
         sidebar.display = self._sidebar_visible
         status = "opened" if self._sidebar_visible else "closed"
         self.notify(f"Collections {status}", timeout=1)
+
+    def action_toggle_section_names(self) -> None:
+        self.screen.toggle_class("show-section-names")

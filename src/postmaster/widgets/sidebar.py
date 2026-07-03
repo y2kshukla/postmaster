@@ -3,7 +3,7 @@ from __future__ import annotations
 from textual.app import ComposeResult
 from textual.containers import Vertical
 from textual.message import Message
-from textual.widgets import Button, Input, Label, Tree
+from textual.widgets import Button, Input, Label, Static, Tree
 
 
 class CollectionTree(Tree):
@@ -20,6 +20,7 @@ class Sidebar(Vertical):
         super().__init__(id="sidebar")
 
     def compose(self) -> ComposeResult:
+        yield Static("Sidebar", classes="section-label")
         yield Label("Collections", id="sidebar-title")
         yield Input(placeholder="Search collections...", id="sidebar-search")
         yield CollectionTree("Collections", id="collection-tree")

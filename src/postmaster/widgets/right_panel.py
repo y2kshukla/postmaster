@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from textual.app import ComposeResult
 from textual.containers import Vertical
-from textual.widgets import ContentSwitcher, DataTable, Label, RichLog, TabPane, TabbedContent
+from textual.widgets import ContentSwitcher, DataTable, Label, RichLog, Static, TabPane, TabbedContent
 
 
 class RightPanel(Vertical):
@@ -11,6 +11,7 @@ class RightPanel(Vertical):
         self._current_response = None
 
     def compose(self) -> ComposeResult:
+        yield Static("Right Panel", classes="section-label")
         with TabbedContent(initial="response", id="response-tabs"):
             with TabPane("Response", id="response"):
                 with ContentSwitcher(initial="empty", id="response-switcher"):

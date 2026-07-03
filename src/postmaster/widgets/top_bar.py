@@ -19,6 +19,7 @@ class TopBar(Horizontal):
         self._environments = environments or [Environment(name="Default Environment")]
 
     def compose(self) -> ComposeResult:
+        yield Static("Top Bar", classes="section-label")
         with Horizontal(id="tab-group"):
             yield Label("Design", classes="tab")
             yield Label("Debug", classes="tab tab-active")

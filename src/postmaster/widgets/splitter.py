@@ -4,7 +4,7 @@ from textual.app import ComposeResult
 from textual.containers import Vertical
 from textual.events import MouseDown, MouseMove, MouseUp
 from textual.message import Message
-from textual.widgets import Button
+from textual.widgets import Button, Static
 
 
 class Splitter(Vertical):
@@ -50,6 +50,7 @@ class Splitter(Vertical):
         self._left_visible = True
 
     def compose(self) -> ComposeResult:
+        yield Static("Splitter", classes="section-label")
         yield Button("\u25c0", id="collapse-btn")
 
     def on_mount(self) -> None:

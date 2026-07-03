@@ -3,7 +3,7 @@ from __future__ import annotations
 from textual.app import ComposeResult
 from textual.containers import Horizontal
 from textual.message import Message
-from textual.widgets import Button, Input, Select
+from textual.widgets import Button, Input, Select, Static
 
 from postmaster.utils.constants import PROTOCOLS
 
@@ -23,6 +23,7 @@ class RequestBar(Horizontal):
         super().__init__(id="request-bar")
 
     def compose(self) -> ComposeResult:
+        yield Static("Request Bar", classes="section-label")
         yield MethodDropdown()
         yield Input(
             placeholder="Enter URL or paste cURL text",

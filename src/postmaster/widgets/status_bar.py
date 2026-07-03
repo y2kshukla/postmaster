@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from textual.app import ComposeResult
 from textual.containers import Horizontal
-from textual.widgets import Label
+from textual.widgets import Label, Static
 
 from postmaster.models.response import HttpResponse
 
@@ -12,6 +12,7 @@ class StatusBar(Horizontal):
         super().__init__(id="status-bar")
 
     def compose(self) -> ComposeResult:
+        yield Static("Status Bar", classes="section-label")
         yield Label("", id="status-timing", classes="stat")
         yield Label("", id="status-size", classes="stat")
         yield Label("", id="status-code", classes="stat")

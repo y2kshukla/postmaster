@@ -350,6 +350,22 @@ LoadingIndicator {
     background: #1e1e1e;
 }
 
+/* ── Section Names (debug overlay) ────────── */
+.section-label {
+    display: none;
+    dock: top;
+    width: 100%;
+    height: 1;
+    background: #007acc;
+    color: #ffffff;
+    padding: 0 2;
+    text-style: bold;
+}
+
+.show-section-names .section-label {
+    display: block;
+}
+
 /* ── Footer ───────────────────────────────── */
 Footer {
     background: #007acc;
