@@ -1,0 +1,364 @@
+Screen {
+    background: #1e1e1e;
+    color: #cccccc;
+}
+
+Screen > Horizontal {
+    height: 1fr;
+}
+
+/* ── Top Bar ──────────────────────────────── */
+#top-bar {
+    height: 3;
+    background: #252526;
+    border-bottom: solid #3c3c3c;
+}
+
+#top-bar .tab {
+    padding: 0 2;
+    color: #808080;
+    text-style: bold;
+}
+
+#top-bar .tab-active {
+    color: #4fc1ff;
+    text-style: bold underline;
+}
+
+#top-bar #title-field {
+    color: #cccccc;
+    padding: 0 2;
+}
+
+#top-bar .icon-btn {
+    background: transparent;
+    border: none;
+    color: #cccccc;
+    min-width: 3;
+}
+
+#top-bar .icon-btn:hover {
+    color: #ffffff;
+}
+
+#top-bar Select {
+    background: #2d2d2d;
+    border: solid #3c3c3c;
+    color: #cccccc;
+}
+
+/* ── Request Bar ──────────────────────────── */
+#request-bar {
+    height: 3;
+    background: #252526;
+    overflow-x: auto;
+}
+
+#method-dropdown {
+    background: #2d2d2d;
+    border: solid #3c3c3c;
+    color: #ffcc00;
+    text-style: bold;
+    min-width: 8;
+}
+
+#url-input {
+    background: #2d2d2d;
+    border: solid #3c3c3c;
+    color: #cccccc;
+    padding: 0 2;
+    width: 1fr;
+    min-width: 30;
+}
+
+#url-input:focus {
+    border: solid #4fc1ff;
+}
+
+#proto-select {
+    background: #2d2d2d;
+    border: solid #3c3c3c;
+    color: #808080;
+    min-width: 10;
+}
+
+#send-btn {
+    background: #4ec9b0;
+    color: #1e1e1e;
+    text-style: bold;
+    min-width: 8;
+    height: 100%;
+}
+
+#send-btn:hover {
+    background: #6eddc6;
+}
+
+#send-btn:focus {
+    border: solid #ffffff;
+}
+
+#save-btn {
+    background: #2d2d2d;
+    color: #cccccc;
+    border: solid #3c3c3c;
+    min-width: 8;
+    height: 100%;
+}
+
+#save-btn:hover {
+    background: #3c3c3c;
+}
+
+/* ── Left Panel ───────────────────────────── */
+#left-panel {
+    background: #1e1e1e;
+    border-right: solid #3c3c3c;
+    width: 1fr;
+    min-width: 30;
+    max-width: 80;
+}
+
+#request-tabs {
+    background: #252526;
+}
+
+#request-tabs > Tabs {
+    height: 3;
+}
+
+#request-tabs Tab {
+    padding: 0 1;
+    color: #808080;
+}
+
+#request-tabs Tab.-active {
+    color: #4fc1ff;
+    text-style: underline;
+}
+
+#request-tabs Tab.-disabled {
+    color: #505050;
+}
+
+#kv-table {
+    background: #1e1e1e;
+    color: #cccccc;
+    border: none;
+}
+
+#kv-table DataTable {
+    background: #1e1e1e;
+    color: #cccccc;
+    border: none;
+}
+
+#kv-table .drag-handle {
+    color: #505050;
+}
+
+#kv-table .checkbox {
+    color: #808080;
+}
+
+#batch-edit-link {
+    color: #4fc1ff;
+    text-style: underline;
+}
+
+/* ── Right Panel ──────────────────────────── */
+#right-panel {
+    background: #1e1e1e;
+    width: 2fr;
+    min-width: 40;
+}
+
+#response-tabs {
+    background: #252526;
+}
+
+#response-tabs > Tabs {
+    height: 3;
+}
+
+#response-tabs Tab {
+    padding: 0 1;
+    color: #808080;
+}
+
+#response-tabs Tab.-active {
+    color: #4fc1ff;
+    text-style: underline;
+}
+
+#response-switcher {
+    height: 1fr;
+}
+
+#response-empty {
+    color: #808080;
+    content-align: center middle;
+    height: 1fr;
+}
+
+#response-empty .owl-icon {
+    color: #606060;
+}
+
+#response-viewer {
+    background: #1e1e1e;
+    height: 1fr;
+}
+
+#response-viewer RichLog {
+    background: #1e1e1e;
+    color: #cccccc;
+    border: none;
+}
+
+#response-viewer DataTable {
+    background: #1e1e1e;
+    color: #cccccc;
+    border: none;
+}
+
+/* ── Status Bar ───────────────────────────── */
+#status-bar {
+    height: 1;
+    background: #007acc;
+    color: #ffffff;
+}
+
+#status-bar .stat {
+    padding: 0 2;
+}
+
+/* ── Generic ──────────────────────────────── */
+Button {
+    text-style: none;
+}
+
+Button:hover {
+    text-style: bold;
+}
+
+Input {
+    background: #2d2d2d;
+    color: #cccccc;
+    border: solid #3c3c3c;
+}
+
+Input:focus {
+    border: solid #4fc1ff;
+}
+
+Select {
+    background: #2d2d2d;
+    color: #cccccc;
+    border: solid #3c3c3c;
+}
+
+Select:focus {
+    border: solid #4fc1ff;
+}
+
+TextArea {
+    background: #1e1e1e;
+    color: #cccccc;
+    border: solid #3c3c3c;
+}
+
+TextArea:focus {
+    border: solid #4fc1ff;
+}
+
+Label {
+    color: #cccccc;
+}
+
+/* ── Overflow Menu ────────────────────────── */
+#overflow-menu {
+    background: #2d2d2d;
+    border: solid #3c3c3c;
+}
+
+#overflow-menu ListItem {
+    padding: 0 2;
+    color: #cccccc;
+}
+
+#overflow-menu ListItem:hover {
+    background: #383838;
+}
+
+/* ── Body Editor ──────────────────────────── */
+#body-editor {
+    background: #1e1e1e;
+    color: #cccccc;
+    border: solid #3c3c3c;
+}
+
+#body-type-select {
+    background: #2d2d2d;
+    border: solid #3c3c3c;
+    color: #cccccc;
+    min-width: 20;
+}
+
+/* ── Auth Panel ───────────────────────────── */
+#auth-type-select {
+    background: #2d2d2d;
+    border: solid #3c3c3c;
+    color: #cccccc;
+    min-width: 20;
+}
+
+.auth-input {
+    background: #2d2d2d;
+    color: #cccccc;
+    border: solid #3c3c3c;
+}
+
+/* ── Collections Sidebar ──────────────────── */
+#sidebar {
+    background: #252526;
+    border-right: solid #3c3c3c;
+}
+
+#sidebar Tree {
+    background: #252526;
+    color: #cccccc;
+    border: none;
+}
+
+#sidebar Tree TreeNode {
+    padding: 0 1;
+}
+
+#sidebar Tree TreeNode:hover {
+    background: #383838;
+}
+
+#sidebar Tree TreeNode.-selected {
+    background: #094771;
+    color: #ffffff;
+}
+
+/* ── Loading ──────────────────────────────── */
+LoadingIndicator {
+    color: #4fc1ff;
+    background: #1e1e1e;
+}
+
+/* ── Footer ───────────────────────────────── */
+Footer {
+    background: #007acc;
+    color: #ffffff;
+}
+
+/* ── Toast / Notifications ────────────────── */
+Toast {
+    background: #2d2d2d;
+    color: #cccccc;
+    border: solid #3c3c3c;
+}

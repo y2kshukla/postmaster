@@ -1,0 +1,2 @@
+[console_scripts]
+postmaster = postmaster.__main__:main
