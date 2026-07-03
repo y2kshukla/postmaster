@@ -1,15 +1,16 @@
 from __future__ import annotations
 
 from textual.app import ComposeResult
-from textual.containers import Horizontal
 from textual.screen import Screen
-from textual.widgets import Select
+from textual.widgets import RichLog, Select
 
-from postmaster.widgets.left_panel import LeftPanel
+from postmaster.widgets.action_panel import ActionPanel
+from postmaster.widgets.auth_editor import AuthEditor
+from postmaster.widgets.body_editor import BodyEditor
+from postmaster.widgets.kv_table import KvRow, KvTable
 from postmaster.widgets.request_bar import RequestBar
 from postmaster.widgets.right_panel import RightPanel
 from postmaster.widgets.sidebar import Sidebar
-from postmaster.widgets.splitter import Splitter
 from postmaster.widgets.status_bar import StatusBar
 from postmaster.widgets.top_bar import TopBar
 
@@ -30,11 +31,7 @@ class MainScreen(Screen):
     def compose(self) -> ComposeResult:
         yield TopBar()
         yield RequestBar()
-        with Horizontal():
-            yield Sidebar()
-            yield LeftPanel()
-            yield Splitter()
-            yield RightPanel()
+        yield ActionPanel()
         yield StatusBar()
 
     def on_mount(self) -> None:
@@ -52,7 +49,6 @@ class MainScreen(Screen):
         if not request.url:
             self.notify("Please enter a URL", severity="error", timeout=3)
             return
-        from postmaster.models.request import HttpRequest
         self.run_worker(self._execute_request(request), exclusive=True)
 
     async def _execute_request(self, request) -> None:
@@ -68,6 +64,13 @@ class MainScreen(Screen):
         right_panel.query_one("#response-body").clear()
         right_panel.query_one("#response-body").write("[yellow]Sending request...[/]")
 
+        actual_text = self._format_request(request)
+        actual_log = right_panel.query_one("#actual-request-log", RichLog)
+        actual_log.clear()
+        actual_log.write(actual_text)
+
+        right_panel._actual_request_text = actual_text
+
         response = await self._http_engine.execute(request)
         right_panel.display_response(response)
 
@@ -78,12 +81,76 @@ class MainScreen(Screen):
         url_input = self.query_one("#url-input")
         proto_select = self.query_one("#proto-select", Select)
 
+        right_panel = self.query_one(RightPanel)
+        right_panel.clear_console()
+
+        params_table = self.query_one("#params-table", KvTable)
+        params_rows = list(params_table.query(KvRow))
+        right_panel.write_console(f"[yellow]Params KvRow count:[/] {len(params_rows)}")
+        params_entries = params_table.get_entries()
+        right_panel.write_console(f"[yellow]Params entries returned:[/] {len(params_entries)}")
+        for p in params_entries:
+            right_panel.write_console(f"  [cyan]{p.key}[/] = [green]{p.value}[/]")
+
+        path_table = self.query_one("#path-table", KvTable)
+        path_rows = list(path_table.query(KvRow))
+        right_panel.write_console(f"[yellow]Path KvRow count:[/] {len(path_rows)}")
+        path_entries = path_table.get_entries()
+        right_panel.write_console(f"[yellow]Path entries returned:[/] {len(path_entries)}")
+        for p in path_entries:
+            right_panel.write_console(f"  [cyan]{p.key}[/] = [green]{p.value}[/]")
+
         request = HttpRequest(
             method=str(method_select.value) if method_select.value else "GET",
             url=url_input.value if hasattr(url_input, 'value') else "",
             protocol=str(proto_select.value) if proto_select.value else "http/1.1",
+            headers=self.query_one("#headers-table", KvTable).get_entries(),
+            query_params=params_entries,
+            path_params=path_entries,
+            body=self.query_one(BodyEditor).get_body_config(),
+            auth=self.query_one(AuthEditor).get_auth_config(),
         )
+        right_panel.write_console(f"[yellow]Final URL:[/] {request.url}")
+        right_panel.write_console(f"[yellow]Query params count:[/] {len(request.query_params)}")
+        right_panel.write_console(f"[yellow]Path params count:[/] {len(request.path_params)}")
         return request
+
+    def _format_request(self, request) -> str:
+        lines = [
+            f"[bold]{request.method}[/] [cyan]{request.url}[/] [dim]{request.protocol}[/]"
+        ]
+
+        headers = [h for h in request.headers if h.enabled and h.key]
+        if headers:
+            lines.append("")
+            lines.append("[underline]Headers[/]")
+            for h in headers:
+                lines.append(f"  [dim]{h.key}:[/] {h.value}")
+
+        params = [p for p in request.query_params if p.enabled and p.key]
+        if params:
+            lines.append("")
+            lines.append("[underline]Query Params[/]")
+            for p in params:
+                lines.append(f"  {p.key} = {p.value}")
+
+        path = [p for p in request.path_params if p.enabled and p.key]
+        if path:
+            lines.append("")
+            lines.append("[underline]Path Params[/]")
+            for p in path:
+                lines.append(f"  {p.key} = {p.value}")
+
+        if request.body.content:
+            lines.append("")
+            lines.append(f"[underline]Body ({request.body.type.value})[/]")
+            lines.append(request.body.content)
+
+        if request.auth.type.value != "None":
+            lines.append("")
+            lines.append(f"[underline]Auth ({request.auth.type.value})[/]")
+
+        return "\n".join(lines)
 
     def action_send_request(self) -> None:
         self.run_send_request()

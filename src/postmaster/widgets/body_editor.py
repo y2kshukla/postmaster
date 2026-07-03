@@ -4,6 +4,7 @@ from textual.app import ComposeResult
 from textual.containers import Horizontal, Vertical
 from textual.widgets import Select, TextArea
 
+from postmaster.models.request import BodyConfig, BodyType
 from postmaster.utils.constants import BODY_TYPES
 
 
@@ -22,6 +23,14 @@ class BodyEditor(Vertical):
             id="body-content",
             language="json",
             show_line_numbers=True,
+        )
+
+    def get_body_config(self) -> BodyConfig:
+        type_select = self.query_one("#body-type-select", Select)
+        editor = self.query_one("#body-content", TextArea)
+        return BodyConfig(
+            type=BodyType(str(type_select.value) if type_select.value else "none"),
+            content=editor.text,
         )
 
     def on_select_changed(self, event: Select.Changed) -> None:

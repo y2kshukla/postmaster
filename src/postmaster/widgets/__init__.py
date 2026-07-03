@@ -9,6 +9,7 @@ from postmaster.widgets.auth_editor import AuthEditor
 from postmaster.widgets.status_bar import StatusBar
 from postmaster.widgets.sidebar import Sidebar
 from postmaster.widgets.splitter import Splitter
+from postmaster.widgets.action_panel import ActionPanel
 
 __all__ = [
     "TopBar",
@@ -22,4 +23,5 @@ __all__ = [
     "StatusBar",
     "Sidebar",
     "Splitter",
+    "ActionPanel",
 ]

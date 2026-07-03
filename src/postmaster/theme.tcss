@@ -3,7 +3,8 @@ Screen {
     color: #cccccc;
 }
 
-Screen > Horizontal {
+/* ── Action Panel ─────────────────────────── */
+#action-panel {
     height: 1fr;
 }
 
@@ -147,23 +148,72 @@ Screen > Horizontal {
     border: none;
 }
 
-#kv-table DataTable {
-    background: #1e1e1e;
-    color: #cccccc;
-    border: none;
-}
-
-#kv-table .drag-handle {
-    color: #505050;
-}
-
-#kv-table .checkbox {
+#kv-header {
+    height: 1;
+    background: #2d2d2d;
     color: #808080;
+    text-style: bold;
 }
 
-#batch-edit-link {
+#kv-header .col-header {
+    padding: 0 1;
+}
+
+#kv-header .kv-spacer {
+    width: 3;
+    min-width: 3;
+}
+
+KvRow {
+    height: 3;
+    background: #1e1e1e;
+}
+
+KvRow:hover {
+    background: #252526;
+}
+
+KvRow > Checkbox {
+    width: 3;
+    min-width: 3;
+}
+
+.kv-key {
+    width: 20;
+    min-width: 15;
+}
+
+.kv-value {
+    width: 1fr;
+}
+
+.kv-desc {
+    width: 15;
+    min-width: 10;
+}
+
+.kv-remove {
+    width: 3;
+    min-width: 3;
+    background: transparent;
+    border: none;
+    color: #f44747;
+}
+
+.kv-remove:hover {
+    background: #5a1d1d;
+}
+
+#add-row-btn {
+    background: transparent;
+    border: none;
     color: #4fc1ff;
     text-style: underline;
+    margin: 0 1;
+}
+
+#add-row-btn:hover {
+    background: #094771;
 }
 
 /* ── Right Panel ──────────────────────────── */
@@ -220,6 +270,43 @@ Screen > Horizontal {
     background: #1e1e1e;
     color: #cccccc;
     border: none;
+}
+
+#actual-request-viewer {
+    background: #1e1e1e;
+    height: 1fr;
+}
+
+#console-viewer {
+    background: #1e1e1e;
+    height: 1fr;
+}
+
+#actual-request-viewer RichLog,
+#console-viewer RichLog {
+    background: #1e1e1e;
+    color: #cccccc;
+    border: none;
+}
+
+.copy-bar {
+    height: 3;
+    align-horizontal: right;
+    align-vertical: middle;
+    background: #252526;
+    border-bottom: solid #3c3c3c;
+}
+
+.copy-btn {
+    background: transparent;
+    border: none;
+    color: #4fc1ff;
+    text-style: underline;
+    min-width: 8;
+}
+
+.copy-btn:hover {
+    background: #094771;
 }
 
 /* ── Status Bar ───────────────────────────── */

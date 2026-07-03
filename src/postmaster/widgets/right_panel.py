@@ -1,14 +1,16 @@
 from __future__ import annotations
 
 from textual.app import ComposeResult
-from textual.containers import Vertical
-from textual.widgets import ContentSwitcher, DataTable, Label, RichLog, Static, TabPane, TabbedContent
+from textual.containers import Horizontal, Vertical
+from textual.widgets import Button, ContentSwitcher, DataTable, Label, RichLog, Static, TabPane, TabbedContent
 
 
 class RightPanel(Vertical):
     def __init__(self) -> None:
         super().__init__(id="right-panel")
         self._current_response = None
+        self._actual_request_text: str = ""
+        self._console_text: str = ""
 
     def compose(self) -> ComposeResult:
         yield Static("Right Panel", classes="section-label")
@@ -22,6 +24,10 @@ class RightPanel(Vertical):
                         id="response-empty",
                     )
                     yield Vertical(
+                        Horizontal(
+                            Button("Copy", id="copy-response-btn", classes="copy-btn"),
+                            classes="copy-bar",
+                        ),
                         RichLog(id="response-body", highlight=True, markup=True),
                         id="response-viewer",
                     )
@@ -30,13 +36,54 @@ class RightPanel(Vertical):
             with TabPane("Cookie", id="cookie-pane"):
                 yield DataTable(id="response-cookies-table")
             with TabPane("Actual Request", id="actual-pane"):
-                yield RichLog(id="actual-request-log", markup=True)
+                yield Vertical(
+                    Horizontal(
+                        Button("Copy", id="copy-request-btn", classes="copy-btn"),
+                        classes="copy-bar",
+                    ),
+                    RichLog(id="actual-request-log", markup=True),
+                    id="actual-request-viewer",
+                )
             with TabPane("Console", id="console-pane"):
-                yield RichLog(id="console-log", markup=True)
+                yield Vertical(
+                    Horizontal(
+                        Button("Copy", id="copy-console-btn", classes="copy-btn"),
+                        classes="copy-bar",
+                    ),
+                    RichLog(id="console-log", markup=True),
+                    id="console-viewer",
+                )
 
     def on_mount(self) -> None:
         self.query_one("#response-headers-table", DataTable).add_columns("Key", "Value")
         self.query_one("#response-cookies-table", DataTable).add_columns("Name", "Value", "Domain", "Path")
+
+    def on_button_pressed(self, event: Button.Pressed) -> None:
+        import pyperclip
+
+        if event.button.id == "copy-response-btn":
+            if self._current_response and self._current_response.body_text:
+                pyperclip.copy(self._current_response.body_text)
+                self.app.notify("Response copied to clipboard", timeout=2)
+        elif event.button.id == "copy-request-btn":
+            if self._actual_request_text:
+                pyperclip.copy(self._actual_request_text)
+                self.app.notify("Request copied to clipboard", timeout=2)
+        elif event.button.id == "copy-console-btn":
+            if self._console_text:
+                pyperclip.copy(self._console_text)
+                self.app.notify("Console copied to clipboard", timeout=2)
+
+    def write_console(self, text: str) -> None:
+        if self._console_text:
+            self._console_text += "\n" + text
+        else:
+            self._console_text = text
+        self.query_one("#console-log", RichLog).write(text)
+
+    def clear_console(self) -> None:
+        self._console_text = ""
+        self.query_one("#console-log", RichLog).clear()
 
     def display_response(self, response) -> None:
         from postmaster.models.response import HttpResponse

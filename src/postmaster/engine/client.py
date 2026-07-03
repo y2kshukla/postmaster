@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import time
+import urllib.parse
 
 import httpx
 
@@ -124,6 +125,20 @@ class AsyncHttpEngine:
         url = request.url.strip()
         if url and not url.startswith(("http://", "https://")):
             url = "https://" + url
+
+        for entry in request.path_params:
+            if entry.enabled and entry.key:
+                url = url.replace(f"{{{entry.key}}}", entry.value)
+
+        query_parts = [
+            f"{urllib.parse.quote(entry.key)}={urllib.parse.quote(entry.value)}"
+            for entry in request.query_params
+            if entry.enabled and entry.key
+        ]
+        if query_parts:
+            separator = "&" if "?" in url else "?"
+            url += separator + "&".join(query_parts)
+
         return url
 
     def _build_headers(self, request: HttpRequest) -> dict[str, str]:
