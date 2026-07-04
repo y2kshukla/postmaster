@@ -9,7 +9,6 @@ from pydantic import BaseModel, Field
 class KeyValueEntry(BaseModel):
     key: str = ""
     value: str = ""
-    description: str = ""
     enabled: bool = True
 
 

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from textual.app import ComposeResult
 from textual.containers import Horizontal, Vertical
-from textual.widgets import Button, Checkbox, Input, Label
+from textual.widgets import Button, Input, Label
 
 from postmaster.models.request import KeyValueEntry
 
@@ -13,23 +13,22 @@ class KvRow(Horizontal):
         self._entry = entry or KeyValueEntry()
 
     def compose(self) -> ComposeResult:
-        yield Checkbox(value=self._entry.enabled, classes="kv-checkbox")
+        yield Button("󰄬" if self._entry.enabled else "󰄱", classes="kv-enabled")
         yield Input(value=self._entry.key, placeholder="Key", classes="kv-key")
         yield Input(value=self._entry.value, placeholder="Value", classes="kv-value")
-        yield Input(value=self._entry.description, placeholder="Desc", classes="kv-desc")
-        yield Button("\u2716", classes="kv-remove")
+        yield Button("󰆴", classes="kv-remove")
 
     def get_entry(self) -> KeyValueEntry:
-        children = self.query(Checkbox)
-        self._entry.enabled = children[0].value
         inputs = self.query(Input)
         self._entry.key = inputs[0].value
         self._entry.value = inputs[1].value
-        self._entry.description = inputs[2].value
         return self._entry
 
     def on_button_pressed(self, event: Button.Pressed) -> None:
-        if event.button.has_class("kv-remove"):
+        if event.button.has_class("kv-enabled"):
+            self._entry.enabled = not self._entry.enabled
+            event.button.label = "󰄬" if self._entry.enabled else "󰄱"
+        elif event.button.has_class("kv-remove"):
             siblings = list(self.parent.query(KvRow))
             if len(siblings) > 1:
                 self.remove()
@@ -49,11 +48,10 @@ class KvTable(Vertical):
             Label("", classes="kv-spacer")
             Label("Key", classes="col-header")
             Label("Value", classes="col-header")
-            Label("Desc", classes="col-header")
             Label("", classes="kv-spacer")
         for entry in self._entries:
             yield KvRow(entry)
-        yield Button("+ Add", id="add-row-btn")
+        yield Button("  Add", id="add-row-btn")
 
     def get_entries(self) -> list[KeyValueEntry]:
         return [row.get_entry() for row in self.query(KvRow) if row.get_entry().key.strip()]
