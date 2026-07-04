@@ -24,19 +24,24 @@ class RequestBar(Horizontal):
 
     def compose(self) -> ComposeResult:
         yield Static("Request Bar", classes="section-label")
-        yield MethodDropdown()
+        yield MethodDropdown(id="method-dropdown")
+
         yield Input(
-            placeholder="Enter URL or paste cURL text",
+            placeholder="https://api.example.com/users",
             id="url-input",
         )
+
         yield Select(
             [(p, p) for p in PROTOCOLS],
             value="http/1.1",
             id="proto-select",
-            allow_blank=False,
         )
-        yield Button("Send", id="send-btn", variant="primary")
-        yield Button("Save", id="save-btn")
+
+        yield Button("▶ Send", id="send-btn", variant="success")
+
+        yield Button("💾", id="save-btn")
+
+        yield Button("⋮", id="more-btn")
 
     def on_button_pressed(self, event: Button.Pressed) -> None:
         if event.button.id == "send-btn":

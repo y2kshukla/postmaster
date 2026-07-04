@@ -7,9 +7,21 @@ from postmaster.utils.constants import HTTP_METHODS
 
 
 class MethodDropdown(Select):
-    def __init__(self) -> None:
-        options = [(m, m) for m in HTTP_METHODS]
-        super().__init__(options, value="POST", id="method-dropdown", allow_blank=False)
+    def __init__(
+        self,
+        *,
+        id: str | None = None,
+        classes: str | None = None,
+    ) -> None:
+        super().__init__(
+            [(m, m) for m in HTTP_METHODS],
+            value="POST",
+            id=id,
+            classes=classes,
+            allow_blank=False,
+        )
 
     def on_mount(self) -> None:
         self.styles.min_width = 8
+        self.styles.height = 3
+        self.styles.padding = 0

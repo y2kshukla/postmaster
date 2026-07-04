@@ -50,26 +50,28 @@ Screen {
 
 /* ── Request Bar ──────────────────────────── */
 #request-bar {
-    height: 3;
+    height: 5;
+    padding: 0 1;
     background: #252526;
-    overflow-x: auto;
+    border-bottom: solid #333;
+}
+
+#request-bar > * {
+    margin-right: 1;
 }
 
 #method-dropdown {
-    background: #2d2d2d;
-    border: solid #3c3c3c;
-    color: #ffcc00;
+    width: 20;
+    background: #313131;
+    color: #ffb454;
     text-style: bold;
-    min-width: 8;
+    border: none;
 }
 
 #url-input {
-    background: #2d2d2d;
-    border: solid #3c3c3c;
-    color: #cccccc;
-    padding: 0 2;
     width: 1fr;
-    min-width: 30;
+    border: round #444;
+    padding: 0 1;
 }
 
 #url-input:focus {
@@ -77,34 +79,25 @@ Screen {
 }
 
 #proto-select {
-    background: #2d2d2d;
-    border: solid #3c3c3c;
-    color: #808080;
-    min-width: 10;
+    width: 20;
+    padding: 0;
+    border: none;
 }
 
 #send-btn {
-    background: #4ec9b0;
-    color: #1e1e1e;
+    width: 7;
+    background: #0e9f6e;
+    color: white;
     text-style: bold;
-    min-width: 8;
-    height: 100%;
 }
 
 #send-btn:hover {
     background: #6eddc6;
 }
 
-#send-btn:focus {
-    border: solid #ffffff;
-}
-
 #save-btn {
-    background: #2d2d2d;
-    color: #cccccc;
-    border: solid #3c3c3c;
-    min-width: 8;
-    height: 100%;
+    width: 3;
+    background: #313131;
 }
 
 #save-btn:hover {
@@ -430,6 +423,8 @@ Label {
 
 /* ── Collections Sidebar ──────────────────── */
 #sidebar {
+    width: 30;
+    min-width: 30;
     background: #252526;
     border-right: solid #3c3c3c;
 }
